@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "src/otelconfigure"
+		},
+		{
+			"path": "src/userservice"
+		},
+		{
+			"path": "src/authenticator"
+		},
+		{
+			"path": "../otel-go-instrumentation"
+		}
+	],
+	"settings": {}
+}
