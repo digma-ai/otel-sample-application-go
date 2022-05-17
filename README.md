@@ -1,0 +1,1 @@
+# otel-sample-application-go
