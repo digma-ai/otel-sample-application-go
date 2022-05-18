@@ -32,7 +32,10 @@ func main() {
 		domain.ExtraLatency = time.Duration(0)
 	}
 
-	shutdown := otelconfigure.InitTracer("userservice")
+	shutdown := otelconfigure.InitTracer("userservice", []string{
+		"github.com/digma-ai/otel-sample-application-go/src/authenticator",
+		"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
+	})
 	defer shutdown()
 
 	tracer := otel.Tracer(appName)

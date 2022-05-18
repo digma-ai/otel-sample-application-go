@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	detector "github.com/digma-ai/otel-go-instrumentation"
+	"github.com/digma-ai/otel-go-instrumentation/detector"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func InitTracer(serviceName string) func() {
+func InitTracer(serviceName string, otherImportPaths []string) func() {
 	otlpAddress, ok := os.LookupEnv("OTEL_EXPORTER_OTLP_ENDPOINT")
 	if !ok {
 		otlpAddress = "localhost:4317"
@@ -42,11 +42,8 @@ func InitTracer(serviceName string) func() {
 		resource.WithDetectors(
 			&detector.DigmaDetector{
 				DeploymentEnvironment: "Dev",
-				OtherImportPath: []string{
-					"github.com/digma-ai/otel-sample-application-go/src/authenticator",
-					"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
-				},
-				OtherModulePath: []string{},
+				OtherImportPath:       otherImportPaths,
+				OtherModulePath:       []string{},
 			},
 		))
 
