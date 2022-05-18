@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
+	digmaecho "github.com/digma-ai/otel-go-instrumentation/echo"
 	"github.com/digma-ai/otel-sample-application-go/src/authservice/auth"
-	//digmaecho "github.com/digma-ai/otel-go-instrumentation/echo"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 	"github.com/labstack/echo/v4"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
@@ -19,6 +20,10 @@ var (
 	port    = "8011"
 	appName = "auth-service"
 )
+
+func index(c echo.Context) error {
+	return c.JSON(http.StatusOK, "Hello!")
+}
 
 func main() {
 	// injected latency
@@ -46,9 +51,11 @@ func main() {
 
 	r := echo.New()
 	r.Use(otelecho.Middleware(appName))
-	//r.Use(digmaecho.Middleware(r))
-	r.POST("/auth", controller.Authenticate)
+	r.Use(digmaecho.Middleware())
+	r.GET("/", index)
+	//r.GET("/auth", auth.Index)
 	r.GET("/auth", controller.Authenticate)
+	r.GET("/error", controller.Error)
 
 	fmt.Println("listening on :" + port)
 	handleErr(r.Start(":"+port), "failed to listen & serve")

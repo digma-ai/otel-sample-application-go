@@ -19,7 +19,14 @@ func NewAuthController(service Service, tracer trace.Tracer) AuthController {
 	}
 }
 
+func Index(c echo.Context) error {
+	return c.JSON(http.StatusOK, "Hello Auth!")
+}
+
 func (controller *AuthController) Authenticate(c echo.Context) error {
-	c.String(http.StatusOK, "Authenticated!")
-	return nil
+	return c.String(http.StatusOK, "Authenticated!")
+}
+
+func (controller AuthController) Error(c echo.Context) error {
+	panic("ERROR!!!!")
 }
