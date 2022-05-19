@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	digmamux "github.com/digma-ai/otel-go-instrumentation/mux"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 	domain "github.com/digma-ai/otel-sample-application-go/src/userservice/user"
 	"github.com/gorilla/mux"
@@ -32,7 +33,7 @@ func main() {
 		domain.ExtraLatency = time.Duration(0)
 	}
 
-	shutdown := otelconfigure.InitTracer("userservice", []string{
+	shutdown := otelconfigure.InitTracer("user-service", []string{
 		"github.com/digma-ai/otel-sample-application-go/src/authenticator",
 		"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 	})
@@ -46,6 +47,7 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Use(otelmux.Middleware(appName))
+	router.Use(digmamux.Middleware(router))
 	router.HandleFunc("/users", controller.Add).Methods("POST")
 	router.HandleFunc("/users/{id}", controller.Get).Methods("GET")
 	router.HandleFunc("/users", controller.All).Methods("GET")
