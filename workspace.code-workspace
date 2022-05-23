@@ -5,7 +5,10 @@
 		},
 		{
 			"path": "src/userservice"
-		},
+		},,
+		{
+			"path": "src/authservice"
+		}
 		{
 			"path": "src/authenticator"
 		},
