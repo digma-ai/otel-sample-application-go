@@ -36,13 +36,19 @@ func main() {
 	defer shutdown()
 
 	tracer := otel.Tracer(appName)
-
+	// _, span := tracer.Start(context.Background(), "test")
+	// defer span.End(trace.WithStackTrace(true))
+	// if true {
+	// 	panic("dont panic")
+	// }
 	service := domain.NewUserService()
 	service.Init()
 	controller := domain.NewUserController(service, tracer)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Use(otelmux.Middleware(appName))
+	//router.Use(handlers.RecoveryHandler())
+
 	router.HandleFunc("/users", controller.Add).Methods("POST")
 	router.HandleFunc("/users/{id}", controller.Get).Methods("GET")
 	router.HandleFunc("/users", controller.All).Methods("GET")

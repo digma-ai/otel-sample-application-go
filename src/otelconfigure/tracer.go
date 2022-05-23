@@ -20,7 +20,7 @@ import (
 func InitTracer(serviceName string) func() {
 	otlpAddress, ok := os.LookupEnv("OTEL_EXPORTER_OTLP_ENDPOINT")
 	if !ok {
-		otlpAddress = "localhost:4317"
+		otlpAddress = "localhost:5050"
 	}
 
 	ctx := context.Background()
