@@ -9,7 +9,7 @@ import (
 )
 
 func Authenticate(ctx context.Context, success bool) bool {
-	tracer := otel.GetTracerProvider().Tracer("authenticator")
+	tracer := otel.GetTracerProvider().Tracer("Authenticate")
 	_, span := tracer.Start(ctx, "Authenticate")
 	defer span.End(trace.WithStackTrace(true))
 	if !success {

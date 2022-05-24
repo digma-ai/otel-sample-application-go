@@ -45,7 +45,7 @@ func (u *userService) Init() {
 
 func (u *userService) Get(ctx context.Context, id string) (User, error) {
 
-	tracer := otel.GetTracerProvider().Tracer("userService")
+	tracer := otel.GetTracerProvider().Tracer("UserService")
 	ctx, span := tracer.Start(ctx, funcName(1))
 	defer span.End(trace.WithStackTrace(true))
 

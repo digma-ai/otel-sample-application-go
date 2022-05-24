@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"go.opentelemetry.io/otel/attribute"
 	otelcodes "go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
@@ -25,7 +26,7 @@ func (controller *UserController) Get(w http.ResponseWriter, req *http.Request) 
 	ctx, span := controller.tracer.Start(req.Context(), "controller::Get")
 	defer span.End(trace.WithStackTrace(true))
 
-	userId := req.URL.Query().Get("id")
+	userId := mux.Vars(req)["id"]
 	user, _ := controller.service.Get(ctx, userId)
 	setResponse(w, user, http.StatusOK)
 }
