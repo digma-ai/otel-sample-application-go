@@ -14,7 +14,6 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
-	"google.golang.org/grpc"
 )
 
 func InitTracer(serviceName string, otherImportPaths []string) func() {
@@ -41,9 +40,9 @@ func InitTracer(serviceName string, otherImportPaths []string) func() {
 		*/
 		resource.WithDetectors(
 			&detector.DigmaDetector{
-				DeploymentEnvironment: "Dev",
-				OtherImportPath:       otherImportPaths,
-				OtherModulePath:       []string{},
+				DeploymentEnvironment:  "Dev",
+				CommitId:               "",
+				OtherModulesImportPath: otherImportPaths,
 			},
 		))
 
@@ -52,7 +51,8 @@ func InitTracer(serviceName string, otherImportPaths []string) func() {
 	traceClient := otlptracegrpc.NewClient(
 		otlptracegrpc.WithInsecure(),
 		otlptracegrpc.WithEndpoint(otlpAddress),
-		otlptracegrpc.WithDialOption(grpc.WithBlock()),
+		otlptracegrpc.WithReconnectionPeriod(2*time.Second),
+		//otlptracegrpc.WithDialOption(grpc.WithBlock()
 	)
 
 	ctx, cancel := context.WithTimeout(ctx, time.Second*10)

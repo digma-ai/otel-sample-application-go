@@ -12,7 +12,6 @@ import (
 	domain "github.com/digma-ai/otel-sample-application-go/src/userservice/user"
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
-	"go.opentelemetry.io/otel"
 )
 
 var (
@@ -39,11 +38,9 @@ func main() {
 	})
 	defer shutdown()
 
-	tracer := otel.Tracer(appName)
-
 	service := domain.NewUserService()
 	service.Init()
-	controller := domain.NewUserController(service, tracer)
+	controller := *domain.NewUserController(service)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Use(otelmux.Middleware(appName))

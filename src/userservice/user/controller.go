@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	otelcodes "go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
@@ -15,10 +16,10 @@ type UserController struct {
 	tracer  trace.Tracer
 }
 
-func NewUserController(service Service, tracer trace.Tracer) UserController {
-	return UserController{
+func NewUserController(service Service) *UserController {
+	return &UserController{
 		service: service,
-		tracer:  tracer,
+		tracer:  otel.Tracer("UserController"),
 	}
 }
 
