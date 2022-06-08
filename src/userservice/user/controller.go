@@ -3,6 +3,7 @@ package domain
 import (
 	"encoding/json"
 	"net/http"
+	"runtime"
 
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/otel"
@@ -16,6 +17,8 @@ type UserController struct {
 	tracer  trace.Tracer
 }
 
+var tracerName = "UserController"
+
 func NewUserController(service Service) *UserController {
 	return &UserController{
 		service: service,
@@ -27,13 +30,16 @@ func (controller *UserController) Get(w http.ResponseWriter, req *http.Request) 
 	ctx, span := controller.tracer.Start(req.Context(), "controller::Get")
 	defer span.End(trace.WithStackTrace(true))
 
+	ctx, span2 := controller.tracer.Start(ctx, getFuncName())
+	defer span2.End(trace.WithStackTrace(true))
+
 	userId := mux.Vars(req)["id"]
 	user, _ := controller.service.Get(ctx, userId)
 	setResponse(w, user, http.StatusOK)
 }
 
 func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) {
-	_, span := controller.tracer.Start(req.Context(), "controller::Add")
+	_, span := controller.tracer.Start(req.Context(), "controller::Add`")
 	defer span.End(trace.WithStackTrace(true))
 	var user User
 
@@ -46,7 +52,7 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 
 	error := controller.service.Add(user)
 	if error != nil {
-		span.RecordError(error, trace.WithStackTrace(true))
+		span.RecordError(error)
 		setResponse(w, error.Error(), http.StatusBadRequest)
 	} else {
 		span.AddEvent("user", trace.WithAttributes(attribute.String("Id", user.Id)))
@@ -68,4 +74,13 @@ func setResponse(w http.ResponseWriter, output interface{}, statusCode int) erro
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	return json.NewEncoder(w).Encode(output)
+}
+
+func getFuncName() string {
+	pc, _, _, ok := runtime.Caller(1)
+	if ok {
+		fn := runtime.FuncForPC(pc)
+		return fn.Name()
+	}
+	return ""
 }
