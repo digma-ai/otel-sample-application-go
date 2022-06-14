@@ -44,11 +44,11 @@ func (u *userService) Init() {
 }
 
 func (u *userService) Get(ctx context.Context, id string) (User, error) {
-
 	tracer := otel.GetTracerProvider().Tracer("UserService")
-	ctx, span := tracer.Start(ctx, funcName(1))
+	ctx, span :=
+		tracer.Start(ctx, funcName(0))
 	defer span.End(trace.WithStackTrace(true))
-
+ 
 	// defer func() { //rethrow
 	// 	if err := recover(); err != nil {
 	// 		e, _ := err.(error)
@@ -72,7 +72,6 @@ func funcName(depth int) string {
 }
 
 // func (u *userService) Get(ctx context.Context, id string) (User, error) {
-
 // 	time.Sleep(ExtraLatency)
 // 	value, found := u.users[id]
 // 	authenticator.Authenticate(ctx, found)
@@ -90,6 +89,7 @@ func (u *userService) List() ([]User, error) {
 }
 
 func (u *userService) Add(user User) error {
+
 	time.Sleep(ExtraLatency)
 	if len(user.Id) > 5 {
 		panic("xxx")
