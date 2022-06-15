@@ -17,6 +17,10 @@ import (
 )
 
 func InitTracer(serviceName string, otherImportPaths []string) func() {
+	return InitTracerWithModule(serviceName, "", "", otherImportPaths)
+}
+
+func InitTracerWithModule(serviceName string, moduleImportPath string, modulePath string, otherImportPaths []string) func() {
 	otlpAddress, ok := os.LookupEnv("OTEL_EXPORTER_OTLP_ENDPOINT")
 	if !ok {
 		otlpAddress = "localhost:5050"
@@ -42,6 +46,8 @@ func InitTracer(serviceName string, otherImportPaths []string) func() {
 			&detector.DigmaDetector{
 				DeploymentEnvironment:  "Dev",
 				CommitId:               "",
+				ModuleImportPath:       moduleImportPath,
+				ModulePath:             modulePath,
 				OtherModulesImportPath: otherImportPaths,
 			},
 		))
