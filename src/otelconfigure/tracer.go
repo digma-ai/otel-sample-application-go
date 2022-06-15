@@ -55,9 +55,9 @@ func InitTracer(serviceName string, otherImportPaths []string) func() {
 		//otlptracegrpc.WithDialOption(grpc.WithBlock()
 	)
 
-	ctx, cancel := context.WithTimeout(ctx, time.Second*10)
+	cancelCtx, cancel := context.WithTimeout(ctx, time.Second*10)
 	defer cancel()
-	traceExporter, err := otlptrace.New(ctx, traceClient)
+	traceExporter, err := otlptrace.New(cancelCtx, traceClient)
 	handleErr(err, "failed to create trace exporter")
 
 	tracerProvider := sdktrace.NewTracerProvider(
@@ -68,8 +68,9 @@ func InitTracer(serviceName string, otherImportPaths []string) func() {
 	otel.SetTracerProvider(tracerProvider)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 	return func() {
+		log.Println("TracerProvider: shutting down...")
 		// Shutdown will flush any remaining spans and shut down the exporter.
-		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
+		handleErr(tracerProvider.Shutdown(context.Background()), "failed to shutdown TracerProvider")
 	}
 }
 
