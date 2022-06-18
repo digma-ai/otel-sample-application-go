@@ -5,10 +5,10 @@
 		},
 		{
 			"path": "src/userservice"
-		},,
+		},
 		{
 			"path": "src/authservice"
-		}
+		},
 		{
 			"path": "src/authenticator"
 		},
@@ -17,6 +17,15 @@
 		}
 	],
 	"settings": {
-		"digma.environment": "DEV"
+		"digma.environment": "DEV",
+		"go.alternateTools": {
+		
+		},
+		"go.goroot": "/usr/local/go",
+		"go.toolsEnvVars": {
+		
+		},
+		"digma.hideFramesOutsideWorkspace": false,
+		"digma.sourceControl": "Git"
 	}
 }

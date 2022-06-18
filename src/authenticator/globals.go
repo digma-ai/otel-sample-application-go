@@ -1,3 +1,3 @@
 package authenticator
 
-var tracerName = "Authenticate"
+var tracerName = "Authenticator"

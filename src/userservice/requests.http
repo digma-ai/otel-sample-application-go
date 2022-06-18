@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "Id": "1",
-    "name": "bob"
+    "name": "Greg"
 }
 
 ### 
@@ -15,3 +15,8 @@ GET http://localhost:8011/users HTTP/1.1
 ### 
     
 GET http://localhost:8011/users/1 HTTP/1.1
+
+
+
+### 
+GET http://localhost:8011/hc HTTP/1.1
