@@ -143,8 +143,8 @@ func main() {
 	}
 
 	shutdown := otelconfigure.InitTracerWithModule("helloworld-server",
-		"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/example",
-		"C:\\Users\\arik\\Documents\\GitHub\\opentelemetry-go-contrib\\instrumentation\\google.golang.org\\grpc\\otelgrpc\\example",
+		"github.com/digma-ai/otel-sample-application-go/grpc-helloworld",
+		"C:\\Users\\arik\\Documents\\GitHub\\otel-sample-application-go\\src\\grpc-helloworld",
 		[]string{
 			"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 		})
