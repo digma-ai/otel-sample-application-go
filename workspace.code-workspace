@@ -13,10 +13,10 @@
 			"path": "src/authenticator"
 		},
 		{
-			"path": "../otel-go-instrumentation"
+			"path": "src/grpc-helloworld"
 		},
 		{
-			"path": "src/grpc-helloworld"
+			"path": "../otel-go-instrumentation"
 		}
 	],
 	"settings": {
