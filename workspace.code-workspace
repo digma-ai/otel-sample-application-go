@@ -5,10 +5,10 @@
 		},
 		{
 			"path": "src/userservice"
-		},,
+		},
 		{
 			"path": "src/authservice"
-		}
+		},
 		{
 			"path": "src/authenticator"
 		},
@@ -16,5 +16,7 @@
 			"path": "../otel-go-instrumentation"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"gopls": { "experimentalWorkspaceModule": true }
+	}
 }
