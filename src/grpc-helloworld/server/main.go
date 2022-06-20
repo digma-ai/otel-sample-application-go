@@ -41,10 +41,9 @@ const (
 	port = ":7777"
 )
 
-var tracer = otel.Tracer("grpc-helloworld")
-
 // server is used to implement api.HelloServiceServer.
 type server struct {
+	tracer trace.Tracer
 	api.HelloServiceServer
 }
 
@@ -58,7 +57,7 @@ func (s *server) SayHello(ctx context.Context, in *api.HelloRequest) (*api.Hello
 }
 
 func (s *server) workHard(ctx context.Context) {
-	_, span := tracer.Start(ctx, "workHard",
+	_, span := s.tracer.Start(ctx, "workHard",
 		trace.WithAttributes(attribute.String("extra.key", "extra.value")))
 	defer span.End()
 
@@ -142,6 +141,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
+	// shutdown := otelconfigure.InitTracer("helloworld-server",
 	shutdown := otelconfigure.InitTracerWithModule("helloworld-server",
 		"github.com/digma-ai/otel-sample-application-go/grpc-helloworld",
 		"C:\\Users\\arik\\Documents\\GitHub\\otel-sample-application-go\\src\\grpc-helloworld",
@@ -161,7 +161,9 @@ func main() {
 		)),
 	)
 
-	api.RegisterHelloServiceServer(s, &server{})
+	api.RegisterHelloServiceServer(s, &server{
+		tracer: otel.Tracer("grpc-helloworld"),
+	})
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
