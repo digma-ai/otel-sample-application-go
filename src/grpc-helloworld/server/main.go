@@ -59,7 +59,7 @@ func (s *server) SayHello(ctx context.Context, in *api.HelloRequest) (*api.Hello
 func (s *server) workHard(ctx context.Context) {
 	_, span := s.tracer.Start(ctx, "workHard",
 		trace.WithAttributes(attribute.String("extra.key", "extra.value")))
-	defer span.End()
+	defer span.End(trace.WithStackTrace(true))
 
 	time.Sleep(50 * time.Millisecond)
 }
