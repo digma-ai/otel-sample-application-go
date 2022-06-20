@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net"
 	"time"
 
@@ -61,13 +62,19 @@ func (s *server) workHard(ctx context.Context) {
 		trace.WithAttributes(attribute.String("extra.key", "extra.value")))
 	defer span.End(trace.WithStackTrace(true))
 
+	if randProbability(0.51) {
+		span.RecordError(fmt.Errorf("dummy error"))
+	}
+
 	time.Sleep(50 * time.Millisecond)
 }
 
 func (s *server) SayHelloServerStream(in *api.HelloRequest, out api.HelloService_SayHelloServerStreamServer) error {
 	log.Printf("Received: %v\n", in.GetGreeting())
 
-	for i := 0; i < 5; i++ {
+	iterations := 4 + rand.Intn(4)
+
+	for i := 0; i < iterations; i++ {
 		err := out.Send(&api.HelloResponse{Reply: "Hello " + in.Greeting})
 		if err != nil {
 			return err
@@ -125,7 +132,19 @@ func (s *server) SayHelloBidiStream(stream api.HelloService_SayHelloBidiStreamSe
 	return nil
 }
 
+// input (pct) value should be between 0.0 to 1.0.
+// for 67 perecnt send value of 0.67
+func randProbability(pct float32) bool {
+	if pct <= 0.0 {
+		return false
+	}
+	randVal := rand.Float32()
+	return randVal <= pct
+}
+
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	tp, err := config.Init()
 	if err != nil {
 		log.Fatal(err)

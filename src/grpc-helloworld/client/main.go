@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"time"
 
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
@@ -32,6 +33,8 @@ import (
 )
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	tp, err := config.Init()
 	if err != nil {
 		log.Fatal(err)
@@ -106,7 +109,9 @@ func callSayHelloClientStream(c api.HelloServiceClient) error {
 		return fmt.Errorf("opening SayHelloClientStream: %w", err)
 	}
 
-	for i := 0; i < 5; i++ {
+	iterations := 4 + rand.Intn(4)
+
+	for i := 0; i < iterations; i++ {
 		err := stream.Send(&api.HelloRequest{Greeting: "World"})
 
 		time.Sleep(time.Duration(i*50) * time.Millisecond)
@@ -169,7 +174,8 @@ func callSayHelloBidiStream(c api.HelloServiceClient) error {
 	clientClosed := make(chan struct{})
 
 	go func() {
-		for i := 0; i < 5; i++ {
+		iterations := 4 + rand.Intn(4)
+		for i := 0; i < iterations; i++ {
 			err := stream.Send(&api.HelloRequest{Greeting: "World"})
 
 			if err != nil {
