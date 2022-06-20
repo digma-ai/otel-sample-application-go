@@ -16,6 +16,7 @@ require (
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
+	github.com/digma-ai/otel-go-instrumentation v0.0.0-20220526013256-80db951cfb9b // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3 // indirect
@@ -35,10 +36,12 @@ require (
 )
 
 require (
-	github.com/digma-ai/otel-go-instrumentation v0.0.0-20220526013256-80db951cfb9b
+	github.com/digma-ai/otel-go-instrumentation/grpc v1.0.0
 	github.com/digma-ai/otel-sample-application-go/src/otelconfigure v0.0.1
 )
 
 replace github.com/digma-ai/otel-sample-application-go/src/otelconfigure => ../otelconfigure
 
 replace github.com/digma-ai/otel-go-instrumentation => ../../../otel-go-instrumentation
+
+replace github.com/digma-ai/otel-go-instrumentation/grpc => ../../../otel-go-instrumentation/grpc
