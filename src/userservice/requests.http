@@ -2,8 +2,8 @@ POST http://localhost:8011/users HTTP/1.1
 content-type: application/json
 
 {
-    "Id": "123123123123123",
-    "name": "bob"
+    "Id": "1",
+    "name": "Greg"
 }
 
 ### 
@@ -13,5 +13,10 @@ GET http://localhost:8011/users HTTP/1.1
 
 
 ### 
+    
+GET http://localhost:8011/users/1 HTTP/1.1
 
-GET http://localhost:8011/users/12 HTTP/1.1
+
+
+### 
+GET http://localhost:8011/hc HTTP/1.1

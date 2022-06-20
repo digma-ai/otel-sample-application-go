@@ -3,9 +3,12 @@ package domain
 import (
 	"context"
 	"errors"
+	"runtime"
 	"time"
 
 	"github.com/digma-ai/otel-sample-application-go/src/authenticator"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/trace"
 )
 
 var (
@@ -41,12 +44,39 @@ func (u *userService) Init() {
 }
 
 func (u *userService) Get(ctx context.Context, id string) (User, error) {
+	tracer := otel.GetTracerProvider().Tracer("UserService")
+	ctx, span :=
+		tracer.Start(ctx, funcName(0))
+	defer span.End(trace.WithStackTrace(true))
+
+	// defer func() { //rethrow
+	// 	if err := recover(); err != nil {
+	// 		e, _ := err.(error)
+	// 		panic(e.Error() + "my new panic")
+	// 	}
+	// }()
 
 	time.Sleep(ExtraLatency)
 	value, found := u.users[id]
 	authenticator.Authenticate(ctx, found)
+
 	return value, nil
 }
+func funcName(depth int) string {
+	pc, _, _, ok := runtime.Caller(depth + 1)
+	if ok {
+		fn := runtime.FuncForPC(pc)
+		return fn.Name()
+	}
+	return ""
+}
+
+// func (u *userService) Get(ctx context.Context, id string) (User, error) {
+// 	time.Sleep(ExtraLatency)
+// 	value, found := u.users[id]
+// 	authenticator.Authenticate(ctx, found)
+// 	return value, nil
+// }
 
 func (u *userService) List() ([]User, error) {
 	time.Sleep(ExtraLatency)
@@ -59,9 +89,10 @@ func (u *userService) List() ([]User, error) {
 }
 
 func (u *userService) Add(user User) error {
-	time.Sleep(ExtraLatency)
+
+	time.Sleep(2 * time.Second)
 	if len(user.Id) > 5 {
-		return ErrIdInvalid
+		panic("invalid user id: " + user.Id)
 	}
 	if _, ok := u.users[user.Id]; ok {
 		return ErrUserAlreadyExists

@@ -17,6 +17,19 @@
 		}
 	],
 	"settings": {
+<<<<<<< HEAD
 		"gopls": { "experimentalWorkspaceModule": true }
+=======
+		"digma.environment": "DEV",
+		"go.alternateTools": {
+		
+		},
+		"go.goroot": "/usr/local/go",
+		"go.toolsEnvVars": {
+		
+		},
+		"digma.hideFramesOutsideWorkspace": false,
+		"digma.sourceControl": "Git"
+>>>>>>> main
 	}
 }
