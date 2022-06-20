@@ -17,6 +17,9 @@
 		}
 	],
 	"settings": {
+		"gopls": { 
+			"experimentalWorkspaceModule": true 
+		},
 		"digma.environment": "DEV",
 		"go.alternateTools": {
 		
