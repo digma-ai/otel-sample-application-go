@@ -141,10 +141,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// shutdown := otelconfigure.InitTracer("helloworld-server",
-	shutdown := otelconfigure.InitTracerWithModule("helloworld-server",
-		"github.com/digma-ai/otel-sample-application-go/grpc-helloworld",
-		"C:\\Users\\arik\\Documents\\GitHub\\otel-sample-application-go\\src\\grpc-helloworld",
+	shutdown := otelconfigure.InitTracer("helloworld-server",
 		[]string{
 			"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 		})

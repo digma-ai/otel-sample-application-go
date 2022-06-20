@@ -42,13 +42,11 @@ func main() {
 		}
 	}()
 
-	shutdownTracer := otelconfigure.InitTracerWithModule("helloworld-client",
-		"github.com/digma-ai/otel-sample-application-go/grpc-helloworld",
-		"C:\\Users\\arik\\Documents\\GitHub\\otel-sample-application-go\\src\\grpc-helloworld",
+	shutdown := otelconfigure.InitTracer("helloworld-client",
 		[]string{
 			"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 		})
-	defer shutdownTracer()
+	defer shutdown()
 
 	var conn *grpc.ClientConn
 	conn, err = grpc.Dial(":7777", grpc.WithTransportCredentials(insecure.NewCredentials()),
