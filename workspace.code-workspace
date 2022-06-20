@@ -17,9 +17,9 @@
 		}
 	],
 	"settings": {
-<<<<<<< HEAD
-		"gopls": { "experimentalWorkspaceModule": true }
-=======
+		"gopls": { 
+			"experimentalWorkspaceModule": true 
+		},
 		"digma.environment": "DEV",
 		"go.alternateTools": {
 		
@@ -30,6 +30,5 @@
 		},
 		"digma.hideFramesOutsideWorkspace": false,
 		"digma.sourceControl": "Git"
->>>>>>> main
 	}
 }
