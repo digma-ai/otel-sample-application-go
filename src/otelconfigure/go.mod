@@ -2,10 +2,8 @@ module github.com/digma-ai/otel-sample-application-go/src/otelconfigure
 
 go 1.18
 
-replace github.com/digma-ai/otel-go-instrumentation => ../../../otel-go-instrumentation
-
 require (
-	github.com/digma-ai/otel-go-instrumentation v0.0.0-20220526013256-80db951cfb9b
+	github.com/digma-ai/otel-go-instrumentation v1.0.6
 	go.opentelemetry.io/otel v1.7.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.7.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.7.0
