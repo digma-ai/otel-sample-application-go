@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"runtime"
+	"sync"
+	"time"
 
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/otel"
@@ -33,10 +35,12 @@ func (controller *UserController) Get(w http.ResponseWriter, req *http.Request) 
 }
 
 func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) {
-	_, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
+	ctx, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
 	defer span.End(trace.WithStackTrace(true))
 	var user User
+	var m sync.Mutex
 
+	m.Lock()
 	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
 		span.SetStatus(otelcodes.Error, "request decode error")
 		span.RecordError(err)
@@ -44,13 +48,15 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 		return
 	}
 
-	error := controller.service.Add(user)
+	error := controller.service.Add(ctx, user)
 	if error != nil {
 		span.RecordError(error)
 		setResponse(w, error.Error(), http.StatusBadRequest)
 		return
 	}
+	time.Sleep(8 * time.Second)
 
+	m.Unlock()
 	setResponse(w, user, http.StatusCreated)
 }
 

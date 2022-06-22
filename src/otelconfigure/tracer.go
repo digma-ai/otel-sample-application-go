@@ -44,7 +44,7 @@ func InitTracerWithModule(serviceName string, moduleImportPath string, modulePat
 		*/
 		resource.WithDetectors(
 			&detector.DigmaDetector{
-				DeploymentEnvironment:  "Dev",
+				DeploymentEnvironment:  os.Getenv("DEPLOYMENT_ENV"),
 				CommitId:               "",
 				ModuleImportPath:       moduleImportPath,
 				ModulePath:             modulePath,

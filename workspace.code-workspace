@@ -11,13 +11,14 @@
 		},
 		{
 			"path": "src/authenticator"
+		},
+		{
+			"path": "src/grpc-helloworld"
 		}
 	],
 	"settings": {
-		"gopls": { 
-			"experimentalWorkspaceModule": true 
-		},
-		"digma.environment": "DEV",
+
+		"digma.environment": "RONS-MBP.LAN[LOCAL]",
 		"go.alternateTools": {
 		
 		},
@@ -26,6 +27,10 @@
 		
 		},
 		"digma.hideFramesOutsideWorkspace": false,
-		"digma.sourceControl": "Git"
+		"digma.sourceControl": "Git",
+		"gopls": {
+            "ui.semanticTokens": true
+		},
+		"digma.url": "http://localhost:5051/"
 	}
 }
