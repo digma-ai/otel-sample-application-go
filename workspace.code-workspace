@@ -13,6 +13,9 @@
 			"path": "src/authenticator"
 		},
 		{
+			"path": "src/grpc-helloworld"
+		},
+		{
 			"path": "../otel-go-instrumentation"
 		}
 	],
