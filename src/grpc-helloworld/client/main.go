@@ -28,22 +28,11 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/api"
-	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/config"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 )
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-
-	tp, err := config.Init()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		if err := tp.Shutdown(context.Background()); err != nil {
-			log.Printf("Error shutting down tracer provider: %v", err)
-		}
-	}()
 
 	shutdown := otelconfigure.InitTracer("helloworld-client",
 		[]string{
@@ -52,7 +41,7 @@ func main() {
 	defer shutdown()
 
 	var conn *grpc.ClientConn
-	conn, err = grpc.Dial(":7777", grpc.WithTransportCredentials(insecure.NewCredentials()),
+	conn, err := grpc.Dial(":7777", grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
 		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
 	)

@@ -24,7 +24,6 @@ import (
 	"time"
 
 	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/api"
-	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/config"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
@@ -144,16 +143,6 @@ func randProbability(pct float32) bool {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-
-	tp, err := config.Init()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		if err := tp.Shutdown(context.Background()); err != nil {
-			log.Printf("Error shutting down tracer provider: %v", err)
-		}
-	}()
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
