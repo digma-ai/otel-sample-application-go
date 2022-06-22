@@ -76,7 +76,7 @@ func funcName(depth int) string {
 // 	value, found := u.users[id]
 // 	authenticator.Authenticate(ctx, found)
 // 	return value, nil
-// }
+// check}
 
 func (u *userService) List() ([]User, error) {
 	time.Sleep(ExtraLatency)
