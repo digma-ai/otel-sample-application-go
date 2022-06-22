@@ -3,7 +3,7 @@ module github.com/digma-ai/otel-sample-application-go/src/authservice
 go 1.18
 
 require (
-	github.com/digma-ai/otel-go-instrumentation/echo v0.0.0-00010101000000-000000000000
+	github.com/digma-ai/otel-go-instrumentation/echo v1.0.0
 	github.com/digma-ai/otel-sample-application-go/src/otelconfigure v0.0.1
 	github.com/labstack/echo/v4 v4.7.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho v0.32.0
@@ -11,15 +11,11 @@ require (
 	go.opentelemetry.io/otel/trace v1.7.0
 )
 
-replace github.com/digma-ai/otel-go-instrumentation => ../../../otel-go-instrumentation
-
-replace github.com/digma-ai/otel-go-instrumentation/echo => ../../../otel-go-instrumentation/echo
-
 replace github.com/digma-ai/otel-sample-application-go/src/otelconfigure => ../otelconfigure
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
-	github.com/digma-ai/otel-go-instrumentation v0.0.0-20220526013256-80db951cfb9b // indirect
+	github.com/digma-ai/otel-go-instrumentation v1.0.5 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect

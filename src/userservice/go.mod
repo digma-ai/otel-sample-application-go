@@ -3,7 +3,7 @@ module github.com/digma-ai/otel-sample-application-go/src/userservice
 go 1.18
 
 require (
-	github.com/digma-ai/otel-go-instrumentation/mux v0.0.0-00010101000000-000000000000
+	github.com/digma-ai/otel-go-instrumentation/mux v1.0.0
 	github.com/digma-ai/otel-sample-application-go/src/authenticator v0.0.1
 	github.com/digma-ai/otel-sample-application-go/src/otelconfigure v0.0.1
 	github.com/gorilla/mux v1.8.0
@@ -16,13 +16,9 @@ replace github.com/digma-ai/otel-sample-application-go/src/otelconfigure => ../o
 
 replace github.com/digma-ai/otel-sample-application-go/src/authenticator => ../authenticator
 
-replace github.com/digma-ai/otel-go-instrumentation => ../../../otel-go-instrumentation
-
-replace github.com/digma-ai/otel-go-instrumentation/mux => ../../../otel-go-instrumentation/mux
-
 require (
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
-	github.com/digma-ai/otel-go-instrumentation v0.0.0-20220526013256-80db951cfb9b // indirect
+	github.com/digma-ai/otel-go-instrumentation v1.0.0 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
