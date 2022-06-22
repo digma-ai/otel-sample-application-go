@@ -17,7 +17,7 @@ var (
 
 type Service interface {
 	List() ([]User, error)
-	Add(user User) error
+	Add(ctx context.Context, user User) error
 	Get(ctx context.Context, id string) (User, error)
 	Init()
 }
@@ -88,8 +88,11 @@ func (u *userService) List() ([]User, error) {
 	return v, nil
 }
 
-func (u *userService) Add(user User) error {
-
+func (u *userService) Add(ctx context.Context, user User) error {
+	tracer := otel.GetTracerProvider().Tracer("UserService")
+	ctx, span :=
+		tracer.Start(ctx, funcName(0))
+	defer span.End(trace.WithStackTrace(true))
 	time.Sleep(2 * time.Second)
 	if len(user.Id) > 5 {
 		panic("invalid user id: " + user.Id)
