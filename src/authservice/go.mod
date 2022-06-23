@@ -1,6 +1,6 @@
 module github.com/digma-ai/otel-sample-application-go/src/authservice
 
-go 1.18
+go 1.17
 
 require (
 	github.com/digma-ai/otel-go-instrumentation/echo v1.0.1

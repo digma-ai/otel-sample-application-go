@@ -1,6 +1,6 @@
 module github.com/digma-ai/otel-sample-application-go/src/authenticator
 
-go 1.18
+go 1.17
 
 require (
 	go.opentelemetry.io/otel v1.7.0
