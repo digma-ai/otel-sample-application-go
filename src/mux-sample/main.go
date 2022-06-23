@@ -11,7 +11,7 @@ import (
 
 	digmamux "github.com/digma-ai/otel-go-instrumentation/mux"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
-	domain "github.com/digma-ai/otel-sample-application-go/src/userservice/user"
+	domain "github.com/digma-ai/otel-sample-application-go/src/mux-sample/user"
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
 	"go.opentelemetry.io/otel"

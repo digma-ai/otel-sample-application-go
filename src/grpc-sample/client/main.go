@@ -27,7 +27,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/api"
+	"github.com/digma-ai/otel-sample-application-go/grpc-sample/api"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 )
 
