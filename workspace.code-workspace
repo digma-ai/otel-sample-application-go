@@ -4,19 +4,16 @@
 			"path": "src/otelconfigure"
 		},
 		{
-			"path": "src/userservice"
-		},
-		{
-			"path": "src/authservice"
-		},
-		{
 			"path": "src/authenticator"
 		},
 		{
-			"path": "src/grpc-helloworld"
+			"path": "src/echo-sample"
 		},
 		{
-			"path": "../otel-go-instrumentation"
+			"path": "src/mux-sample"
+		},
+		{
+			"path": "src/grpc-sample"
 		}
 	],
 	"settings": {
