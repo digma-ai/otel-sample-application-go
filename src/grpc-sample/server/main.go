@@ -23,7 +23,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/digma-ai/otel-sample-application-go/grpc-helloworld/api"
+	"github.com/digma-ai/otel-sample-application-go/grpc-sample/api"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"

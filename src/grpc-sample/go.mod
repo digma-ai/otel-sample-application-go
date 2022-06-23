@@ -1,4 +1,4 @@
-module github.com/digma-ai/otel-sample-application-go/grpc-helloworld
+module github.com/digma-ai/otel-sample-application-go/grpc-sample
 
 go 1.17
 

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	digmaecho "github.com/digma-ai/otel-go-instrumentation/echo"
-	"github.com/digma-ai/otel-sample-application-go/src/authservice/auth"
+	"github.com/digma-ai/otel-sample-application-go/src/echo-sample/auth"
 	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 	"github.com/labstack/echo/v4"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
