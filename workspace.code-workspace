@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "src/grpc-sample"
+		},
+		{
+			"path": "../otel-go-instrumentation"
 		}
 	],
 	"settings": {
