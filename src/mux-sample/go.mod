@@ -1,4 +1,4 @@
-module github.com/digma-ai/otel-sample-application-go/src/userservice
+module github.com/digma-ai/otel-sample-application-go/src/mux-sample
 
 go 1.17
 
