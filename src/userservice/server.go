@@ -33,7 +33,7 @@ func main() {
 		domain.ExtraLatency = v
 		log.Printf("extra latency enabled (duration: %v)", v)
 	} else {
-		domain.ExtraLatency = time.Duration(0)
+		domain.ExtraLatency = time.Duration(4)
 	}
 
 	shutdown := otelconfigure.InitTracer("user-service", []string{
@@ -55,6 +55,8 @@ func main() {
 	router.HandleFunc("/users", controller.Add).Methods("POST")
 	router.HandleFunc("/users/{id}", controller.Get).Methods("GET")
 	router.HandleFunc("/users", controller.All).Methods("GET")
+	router.HandleFunc("/serviceusers", controller.AddServiceAccount).Methods("POST")
+	router.HandleFunc("/test", controller.Test).Methods("GET")
 
 	fmt.Println("listening on :" + port)
 	err := http.ListenAndServe(":"+port, router)

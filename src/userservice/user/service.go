@@ -87,6 +87,16 @@ func (u *userService) List() ([]User, error) {
 	}
 	return v, nil
 }
+func (u *userService) DoExtraWork(ctx context.Context, user User) error {
+	tracer := otel.GetTracerProvider().Tracer("UserService")
+	ctx, span :=
+		tracer.Start(ctx, funcName(0))
+	defer span.End(trace.WithStackTrace(true))
+
+	time.Sleep(1 * time.Second)
+	return nil
+
+}
 
 func (u *userService) Add(ctx context.Context, user User) error {
 	tracer := otel.GetTracerProvider().Tracer("UserService")
@@ -94,6 +104,13 @@ func (u *userService) Add(ctx context.Context, user User) error {
 		tracer.Start(ctx, funcName(0))
 	defer span.End(trace.WithStackTrace(true))
 	time.Sleep(2 * time.Second)
+
+	if len(u.users)%10 == 0 {
+
+		for i := 0; i < len(u.users); i++ {
+			u.DoExtraWork(ctx, user)
+		}
+	}
 	if len(user.Id) > 5 {
 		panic("invalid user id: " + user.Id)
 	}

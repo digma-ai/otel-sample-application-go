@@ -18,7 +18,7 @@
 	],
 	"settings": {
 
-		"digma.environment": "RONS-MBP.LAN[LOCAL]",
+		"digma.environment": "STAGING",
 		"go.alternateTools": {
 		
 		},
@@ -26,11 +26,12 @@
 		"go.toolsEnvVars": {
 		
 		},
-		"digma.hideFramesOutsideWorkspace": false,
+		"digma.hideFramesOutsideWorkspace": true,
 		"digma.sourceControl": "Git",
 		"gopls": {
             "ui.semanticTokens": true
 		},
-		"digma.url": "http://localhost:5051/"
+		"digma.url": "https://localhost:5051/",
+		"digma.jaegerAddress": "http://localhost:16686"
 	}
 }

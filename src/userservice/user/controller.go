@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"runtime"
-	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -16,12 +15,14 @@ import (
 type UserController struct {
 	service Service
 	tracer  trace.Tracer
+	counter int
 }
 
 func NewUserController(service Service) *UserController {
 	return &UserController{
 		service: service,
 		tracer:  otel.Tracer("UserController"),
+		counter: 0,
 	}
 }
 
@@ -38,9 +39,7 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 	ctx, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
 	defer span.End(trace.WithStackTrace(true))
 	var user User
-	var m sync.Mutex
 
-	m.Lock()
 	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
 		span.SetStatus(otelcodes.Error, "request decode error")
 		span.RecordError(err)
@@ -54,10 +53,39 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 		setResponse(w, error.Error(), http.StatusBadRequest)
 		return
 	}
-	time.Sleep(8 * time.Second)
 
-	m.Unlock()
+	time.Sleep(1 * time.Second)
+	controller.counter++
+	newUser, _ := controller.service.Get(ctx, "2")
+
+	setResponse(w, newUser, http.StatusCreated)
+}
+
+func (controller *UserController) AddServiceAccount(w http.ResponseWriter, req *http.Request) {
+	var user User
+
+	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
+
+		setResponse(w, err, http.StatusBadRequest)
+		return
+	}
+
+	error := controller.service.Add(req.Context(), user)
+	if error != nil {
+		setResponse(w, error.Error(), http.StatusBadRequest)
+		return
+	}
+	controller.counter++
 	setResponse(w, user, http.StatusCreated)
+}
+
+func (controller *UserController) Test(w http.ResponseWriter, req *http.Request) {
+	ctx, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
+	defer span.End(trace.WithStackTrace(true))
+
+	userId := mux.Vars(req)["id"]
+	user, _ := controller.service.Get(ctx, userId)
+	setResponse(w, user, http.StatusOK)
 }
 
 func (controller *UserController) All(w http.ResponseWriter, req *http.Request) {
