@@ -54,8 +54,8 @@ github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/digma-ai/otel-go-instrumentation v1.0.9 h1:PsYk4mt5VSYjym0fMULVF4gWbybMVgPmGKzt4v19Trg=
-github.com/digma-ai/otel-go-instrumentation v1.0.9/go.mod h1:ZjSLSnl1kkk61O7NiU9UF1Wl0ngCHJtuauO+XW86AxM=
+github.com/digma-ai/otel-go-instrumentation v1.0.10 h1:JEY3caXmnLBL+FyKr46bZuid39WmD9MibR469s9jaWM=
+github.com/digma-ai/otel-go-instrumentation v1.0.10/go.mod h1:ZjSLSnl1kkk61O7NiU9UF1Wl0ngCHJtuauO+XW86AxM=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
