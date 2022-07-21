@@ -34,6 +34,6 @@
 		"gopls": {
             "ui.semanticTokens": true
 		},
-		"digma.url": "http://localhost:5051/"
+		"digma.url": "https://localhost:5051"
 	}
 }
