@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,9 +11,11 @@ import (
 	"time"
 
 	digmamux "github.com/digma-ai/otel-go-instrumentation/mux"
-	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
 	domain "github.com/digma-ai/otel-sample-application-go/src/mux-sample/user"
+	"github.com/digma-ai/otel-sample-application-go/src/otelconfigure"
+	"github.com/exaring/otelpgx"
 	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
@@ -36,14 +39,26 @@ func main() {
 		domain.ExtraLatency = time.Duration(0)
 	}
 
+	connStr := "postgresql://postgres:postgres@localhost/users?sslmode=disable"
+	cfg, err := pgxpool.ParseConfig(connStr)
+	if err != nil {
+		log.Fatalln("Unable to parse DATABASE_URL:", err)
+	}
+
 	shutdown := otelconfigure.InitTracer("user-service", []string{
 		"github.com/digma-ai/otel-sample-application-go/src/authenticator",
 		"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 	})
 	defer shutdown()
 
-	service := domain.NewUserService()
-	service.Init()
+	cfg.ConnConfig.Tracer = otelpgx.NewTracer()
+
+	db, err := pgxpool.NewConfig(context.Background(), cfg)
+	if err != nil {
+		log.Fatalln("Unable to create connection pool:", err)
+	}
+
+	service := domain.NewUserService(db)
 	controller := *domain.NewUserController(service)
 
 	router := mux.NewRouter().StrictSlash(true)
@@ -57,7 +72,7 @@ func main() {
 	router.HandleFunc("/users", controller.All).Methods("GET")
 
 	fmt.Println("listening on :" + port)
-	err := http.ListenAndServe(":"+port, router)
+	err = http.ListenAndServe(":"+port, router)
 	handleErr(err, "failed to listen & serve")
 }
 

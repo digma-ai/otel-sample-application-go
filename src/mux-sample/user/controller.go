@@ -63,7 +63,7 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 func (controller *UserController) All(w http.ResponseWriter, req *http.Request) {
 	_, span := controller.tracer.Start(req.Context(), "controller::All")
 	defer span.End(trace.WithStackTrace(true))
-	users, _ := controller.service.List()
+	users, _ := controller.service.List(req.Context())
 	setResponse(w, users, http.StatusOK)
 }
 
