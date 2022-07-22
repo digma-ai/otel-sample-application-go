@@ -35,8 +35,7 @@ func (controller *UserController) Get(w http.ResponseWriter, req *http.Request) 
 }
 
 func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) {
-	ctx, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
-	defer span.End(trace.WithStackTrace(true))
+	span := trace.SpanFromContext(req.Context())
 	var user User
 	var m sync.Mutex
 
@@ -47,22 +46,24 @@ func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) 
 		setResponse(w, err, http.StatusBadRequest)
 		return
 	}
+	users, _ := controller.service.List(req.Context())
+	for i := 0; i < len(users); i++ {
+		controller.service.Get(req.Context(), users[i].Id)
+	}
 
-	error := controller.service.Add(ctx, user)
+	error := controller.service.Add(req.Context(), user)
 	if error != nil {
 		span.RecordError(error)
 		setResponse(w, error.Error(), http.StatusBadRequest)
 		return
 	}
-	time.Sleep(8 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	m.Unlock()
 	setResponse(w, user, http.StatusCreated)
 }
 
 func (controller *UserController) All(w http.ResponseWriter, req *http.Request) {
-	_, span := controller.tracer.Start(req.Context(), "controller::All")
-	defer span.End(trace.WithStackTrace(true))
 	users, _ := controller.service.List(req.Context())
 	setResponse(w, users, http.StatusOK)
 }

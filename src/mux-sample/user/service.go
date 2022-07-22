@@ -94,6 +94,10 @@ func funcName(depth int) string {
 // check}
 
 func (u *userService) List(ctx context.Context) ([]User, error) {
+	tracer := otel.GetTracerProvider().Tracer("UserService")
+	_, span :=
+		tracer.Start(ctx, funcName(0))
+	defer span.End(trace.WithStackTrace(true))
 	time.Sleep(ExtraLatency)
 
 	rows, err := u.db.Query(ctx, "select * from users")

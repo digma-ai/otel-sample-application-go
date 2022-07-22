@@ -2,7 +2,7 @@ POST http://localhost:8011/users HTTP/1.1
 content-type: application/json
 
 {
-    "Id": "19",
+    "Id": "{{$randomInt 1 10000}}",
     "name": "Greg"
 }
 
@@ -14,7 +14,7 @@ GET http://localhost:8011/users HTTP/1.1
 
 ### 
     
-GET http://localhost:8011/users/19 HTTP/1.1
+GET http://localhost:8011/users/23044444 HTTP/1.1
 
 
 

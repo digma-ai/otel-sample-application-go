@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/digma-ai/otel-go-instrumentation/mux v1.0.1
-	github.com/digma-ai/otel-sample-application-go/src/authenticator v0.0.1
 	github.com/digma-ai/otel-sample-application-go/src/otelconfigure v0.0.1
 	github.com/gorilla/mux v1.8.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.32.0
@@ -21,11 +20,8 @@ require (
 
 replace github.com/digma-ai/otel-sample-application-go/src/otelconfigure => ../otelconfigure
 
-replace github.com/digma-ai/otel-sample-application-go/src/authenticator => ../authenticator
-
 require (
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/digma-ai/otel-go-instrumentation v1.0.10 // indirect
 	github.com/exaring/otelpgx v0.1.0
 	github.com/felixge/httpsnoop v1.0.3 // indirect

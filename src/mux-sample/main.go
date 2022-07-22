@@ -46,7 +46,6 @@ func main() {
 	}
 
 	shutdown := otelconfigure.InitTracer("user-service", []string{
-		"github.com/digma-ai/otel-sample-application-go/src/authenticator",
 		"github.com/digma-ai/otel-sample-application-go/src/otelconfigure",
 	})
 	defer shutdown()
