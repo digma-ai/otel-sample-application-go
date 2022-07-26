@@ -69,6 +69,7 @@ func main() {
 	router.HandleFunc("/users", controller.Add).Methods("POST")
 	router.HandleFunc("/users/{id}", controller.Get).Methods("GET")
 	router.HandleFunc("/users", controller.All).Methods("GET")
+	router.HandleFunc("/serviceusers", controller.AddServiceUsers).Methods("POST")
 
 	fmt.Println("listening on :" + port)
 	err = http.ListenAndServe(":"+port, router)

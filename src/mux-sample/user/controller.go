@@ -34,6 +34,37 @@ func (controller *UserController) Get(w http.ResponseWriter, req *http.Request) 
 	setResponse(w, user, http.StatusOK)
 }
 
+func (controller *UserController) AddServiceUsers(w http.ResponseWriter, req *http.Request) {
+	ctx, span := controller.tracer.Start(req.Context(), getCurrentFuncName())
+	defer span.End(trace.WithStackTrace(true))
+
+	var user User
+	var m sync.Mutex
+
+	m.Lock()
+	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
+		span.SetStatus(otelcodes.Error, "request decode error")
+		span.RecordError(err)
+		setResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	users, _ := controller.service.List(ctx)
+	for i := 0; i < len(users); i++ {
+		controller.service.Get(ctx, users[i].Id)
+	}
+
+	error := controller.service.Add(ctx, user)
+	if error != nil {
+		span.RecordError(error)
+		setResponse(w, error.Error(), http.StatusBadRequest)
+		return
+	}
+	time.Sleep(2 * time.Second)
+
+	m.Unlock()
+	setResponse(w, user, http.StatusCreated)
+}
+
 func (controller *UserController) Add(w http.ResponseWriter, req *http.Request) {
 	span := trace.SpanFromContext(req.Context())
 	var user User

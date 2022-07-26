@@ -41,8 +41,7 @@ var ErrUserNotFound = errors.New("user not found")
 
 func (u *userService) Get(ctx context.Context, id string) (User, error) {
 	tracer := otel.GetTracerProvider().Tracer("UserService")
-	_, span :=
-		tracer.Start(ctx, funcName(0))
+	ctx, span := tracer.Start(ctx, funcName(0))
 	defer span.End(trace.WithStackTrace(true))
 
 	// defer func() { //rethrow
@@ -95,8 +94,7 @@ func funcName(depth int) string {
 
 func (u *userService) List(ctx context.Context) ([]User, error) {
 	tracer := otel.GetTracerProvider().Tracer("UserService")
-	_, span :=
-		tracer.Start(ctx, funcName(0))
+	ctx, span := tracer.Start(ctx, funcName(0))
 	defer span.End(trace.WithStackTrace(true))
 	time.Sleep(ExtraLatency)
 
@@ -123,8 +121,7 @@ func (u *userService) List(ctx context.Context) ([]User, error) {
 
 func (u *userService) Add(ctx context.Context, user User) error {
 	tracer := otel.GetTracerProvider().Tracer("UserService")
-	_, span :=
-		tracer.Start(ctx, funcName(0))
+	ctx, span := tracer.Start(ctx, funcName(0))
 	defer span.End(trace.WithStackTrace(true))
 	time.Sleep(2 * time.Second)
 	if len(user.Id) > 5 {
